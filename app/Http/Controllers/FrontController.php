@@ -24,7 +24,7 @@ class FrontController extends Controller
         }
 
         return view('s3test', compact('images'));
-       
+
     }
 
     /**
@@ -43,14 +43,14 @@ class FrontController extends Controller
         $this->validate($request, [
             'image' => 'required|image|max:2048'
         ]);
-             
+
         if ($request->hasFile('image')) {
         $file = $request->file('image');
         $name = time() . $file->getClientOriginalName();
         $filePath = 'images/' . $name;
         Storage::disk('s3')->put($filePath, file_get_contents($file));
         }
-            
+
         return back()->withSuccess('Image uploaded successfully');
     }
 
@@ -84,13 +84,12 @@ class FrontController extends Controller
     public function destroy(string $image)
     {
         Storage::disk('s3')->delete('images/' . $image);
- 
+
         return back()->withSuccess('Image was deleted successfully');
     }
 
     public function gallary() {
         $images = Image::orderBy('id','desc')->simplePaginate(8);
-
-        return view('gallary',compact('images'));
+        return response()->json($images);
     }
 }

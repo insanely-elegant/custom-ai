@@ -22,3 +22,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('image-request',[PromptController::class,'imageRequest']);
 Route::post('difuse-image-request',[DiffusionController::class,'imageRequest']);
+Route::get('/gallary', [FrontController::class,'gallary'])->name('gallary');
